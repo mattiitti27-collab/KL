@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>40KnotsForLife | 10 Years of Wind & Freedom</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                        script: ['Dancing Script', 'cursive'],
+                    },
+                    colors: {
+                        deep: '#021019',    // Abisso
+                        ocean: '#003B5C',   // Blu Profondo
+                        azure: '#00B4D8',   // Acqua tropicale
+                        cyan: '#00F3FF',    // Elettrico
+                        sand: '#F3E5AB',    // Sabbia
+                        sun: '#FFD700',     // Sole
+                        coral: '#FF4081',   // Accento Energy
+                    },
+                    animation: {
+                        'float-slow': 'float 8s ease-in-out infinite',
+                        'float-medium': 'float 5s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s infinite',
+                        'wave': 'wave 25s linear infinite',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(0, 243, 255, 0.2)' },
+                            '50%': { boxShadow: '0 0 50px rgba(0, 243, 255, 0.6)' },
+                        },
+                        wave: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(50px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            background-color: #021019;
+            color: #ffffff; 
+            overflow-x: hidden; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- ADVANCED LIQUID BACKGROUND --- */
+        .ocean-gradient {
+            position: fixed; inset: 0; z-index: -5;
+            background: radial-gradient(circle at 50% 0%, #003B5C 0%, #021019 70%);
+        }
+        
+        .sun-spot {
+            position: fixed; top: -10%; right: -10%; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.15) 0%, transparent 70%);
+            filter: blur(80px); z-index: -4;
+            animation: float 10s infinite alternate;
+        }
+
+        /* --- GLASSMORPHISM PRO --- */
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.2); /* Highlight top */
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-style: preserve-3d;
+            position: relative; overflow: hidden;
+        }
+        
+        /* Riflesso Vetro */
+        .glass-panel::before {
+            content: ''; position: absolute; top: 0; left: -50%; width: 200%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-25deg);
+            pointer-events: none; opacity: 0; transition: opacity 0.5s;
+        }
+        .glass-panel:hover::before { opacity: 1; }
+        .glass-panel:hover { 
+            background: rgba(255, 255, 255, 0.06); 
+            box-shadow: 0 30px 60px -10px rgba(0, 243, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* --- PARTICLES (BUBBLES & WIND) --- */
+        .particle {
+            position: fixed;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 80%);
+            border-radius: 50%;
+            pointer-events: none; z-index: -2;
+            animation: riseUp linear infinite; 
+            will-change: transform, opacity;
+        }
+        @keyframes riseUp {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+            20% { opacity: 0.4; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        /* --- SCROLL PROGRESS --- */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, #00F3FF, #FFD700);
+            z-index: 1001; width: 0%; 
+            box-shadow: 0 0 15px #00F3FF;
+        }
+
+        /* --- TEXT STYLING --- */
+        .text-gradient { 
+            background: linear-gradient(90deg, #fff, #00F3FF); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+            color: transparent;
+        }
+
+        /* --- UTILITY --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .mobile-menu-enter { transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); }
+        .mobile-menu-active { transform: translateX(0); }
+
+        /* WAVES DECORATION */
+        .wave-divider {
+            position: absolute; bottom: 0; left: 0; width: 100%; overflow: hidden; line-height: 0;
+            transform: rotate(180deg);
+        }
+        .wave-divider svg { position: relative; display: block; width: calc(130% + 1.3px); height: 100px; }
+        .wave-divider .shape-fill { fill: #021019; opacity: 0.8; }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-cyan selection:text-deep">
+    
+    <div class="fixed bottom-10 left-10 z-50 hidden md:flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity cursor-pointer group">
+        <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center animate-spin-slow">
+            <i class="fa-solid fa-music text-xs text-cyan"></i>
+        </div>
+        <span class="text-[10px] uppercase tracking-widest font-bold group-hover:text-cyan">Ocean Vibes</span>
+    </div>
+
+    <div id="scroll-progress"></div>
+    <div class="ocean-gradient"></div>
+    <div class="sun-spot"></div>
+    <div id="particles-container"></div>
+
+    <a href="#" class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[55] w-14 h-14 md:w-16 md:h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_0_30px_#25D366] hover:scale-110 transition-transform duration-300 group overflow-hidden">
+        <div class="absolute inset-0 bg-white/20 scale-0 group-hover:scale-150 transition-transform rounded-full"></div>
+        <i class="fa-brands fa-whatsapp text-white text-3xl md:text-4xl relative z-10"></i>
+    </a>
+
+    <nav class="fixed w-full z-50 py-4 px-6 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto glass-panel rounded-full px-6 py-3 flex justify-between items-center bg-black/20 backdrop-blur-md">
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-cyan rounded-lg flex items-center justify-center font-display font-bold text-deep text-xl shadow-[0_0_15px_rgba(0,243,255,0.5)] transform group-hover:rotate-12 transition-transform">
+                    4K
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-display font-bold text-lg leading-none tracking-tighter">40KNOTS<span class="text-cyan">FORLIFE</span></span>
+                    <span class="text-[9px] uppercase tracking-[0.3em] opacity-70">Kite & Wing Tribe</span>
+                </div>
+            </a>
+            
+            <div class="hidden md:flex gap-8 text-xs font-bold tracking-widest uppercase">
+                <a href="#vision" class="hover:text-cyan transition-colors relative group py-2">Vision <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-cyan group-hover:w-full transition-all"></span></a>
+                <a href="#timeline" class="hover:text-cyan transition-colors relative group py-2">10 Years <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-cyan group-hover:w-full transition-all"></span></a>
+                <a href="#community" class="hover:text-cyan transition-colors relative group py-2">Community <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-cyan group-hover:w-full transition-all"></span></a>
+                <a href="#disciplines" class="hover:text-cyan transition-colors relative group py-2">Action <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-cyan group-hover:w-full transition-all"></span></a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#community" class="hidden md:flex px-6 py-2 bg-gradient-to-r from-cyan to-blue-500 rounded-full text-deep font-bold text-xs uppercase tracking-wider hover:shadow-[0_0_20px_rgba(0,243,255,0.6)] transition-all transform hover:-translate-y-0.5">
+                    Join the Tribe
+                </a>
+                <button onclick="toggleMenu()" class="md:hidden text-2xl text-white"><i class="fa-solid fa-bars-staggered"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-deep/95 backdrop-blur-xl mobile-menu-enter flex flex-col items-center justify-center">
+        <button onclick="toggleMenu()" class="absolute top-8 right-8 text-3xl text-white hover:text-cyan transition-colors"><i class="fa-solid fa-xmark"></i></button>
+        <div class="space-y-8 text-center font-display text-3xl uppercase font-bold tracking-wide">
+            <a href="#vision" onclick="toggleMenu()" class="block hover:text-cyan hover:scale-105 transition-all">Vision</a>
+            <a href="#timeline" onclick="toggleMenu()" class="block hover:text-cyan hover:scale-105 transition-all">10 Years</a>
+            <a href="#community" onclick="toggleMenu()" class="block hover:text-cyan hover:scale-105 transition-all">Community</a>
+            <a href="#ecosystem" onclick="toggleMenu()" class="block hover:text-cyan hover:scale-105 transition-all">Spot & Trips</a>
+        </div>
+    </div>
+
+    <header class="relative min-h-screen flex items-center justify-center px-4 overflow-hidden pt-20">
+        <div class="absolute top-1/4 left-0 w-[500px] h-[500px] bg-cyan/10 rounded-full blur-[100px] animate-pulse-glow"></div>
+        <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px]"></div>
+
+        <div class="relative z-10 text-center max-w-5xl mx-auto">
+            <div class="reveal active inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan/30 bg-cyan/5 backdrop-blur-sm mb-8">
+                <span class="w-2 h-2 rounded-full bg-cyan animate-pulse"></span>
+                <span class="text-[10px] uppercase font-bold tracking-[0.2em] text-cyan">Since 2014 • The Original Tribe</span>
+            </div>
+            
+            <h1 class="reveal active font-display font-bold text-6xl md:text-9xl leading-[0.9] tracking-tighter mb-6">
+                RIDING THE <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan to-blue-500" style="-webkit-text-stroke: 0px;">ELEMENTS</span>
+            </h1>
+            
+            <p class="reveal active text-xl md:text-2xl text-gray-300 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
+                Più di un gruppo, uno stile di vita. <br>
+                <span class="font-script text-cyan text-3xl md:text-4xl opacity-90">"40 Knots For Life"</span>
+            </p>
+            
+            <div class="reveal active flex flex-col md:flex-row gap-6 justify-center items-center">
+                <a href="#community" class="px-10 py-5 bg-white text-deep rounded-full font-bold uppercase tracking-widest hover:bg-cyan transition-colors shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                    Entra nel Gruppo
+                </a>
+                <a href="#timeline" class="group flex items-center gap-3 text-sm font-bold uppercase tracking-widest hover:text-cyan transition-colors">
+                    <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center group-hover:border-cyan transition-colors">
+                        <i class="fa-solid fa-arrow-down group-hover:animate-bounce"></i>
+                    </div>
+                    La Nostra Storia
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
+            <span class="text-[9px] uppercase tracking-[0.3em]">Scroll to Dive</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-cyan to-transparent"></div>
+        </div>
+    </header>
+
+    <section id="vision" class="py-32 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="font-display text-5xl md:text-7xl font-bold uppercase leading-none mb-8">
+                        Non siamo solo <br> <span class="text-outline">Numeri.</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-8">
+                        Fin dal 2014, 40KnotsForLife non è stato solo un punto di ritrovo, ma un <strong>acceleratore per l'apprendimento</strong>. Dai consigli tecnici ai "pep talk" prima di un grande salto, qui si superano le paure.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="glass-panel p-6 rounded-2xl">
+                            <i class="fa-solid fa-wind text-3xl text-cyan mb-4"></i>
+                            <h4 class="font-bold uppercase tracking-wider mb-2">Adrenalina</h4>
+                            <p class="text-xs text-gray-400">Il motore che ci spinge oltre il limite.</p>
+                        </div>
+                        <div class="glass-panel p-6 rounded-2xl">
+                            <i class="fa-solid fa-people-group text-3xl text-sun mb-4"></i>
+                            <h4 class="font-bold uppercase tracking-wider mb-2">Tribù</h4>
+                            <p class="text-xs text-gray-400">Condivisione reale, non solo virtuale.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative reveal tilt-card" data-tilt>
+                    <div class="absolute inset-0 bg-gradient-to-tr from-cyan/20 to-purple-500/20 rounded-[3rem] blur-2xl -z-10"></div>
+                    <div class="glass-panel p-10 md:p-14 rounded-[3rem] border border-white/10 text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+                        <i class="fa-solid fa-quote-left text-4xl text-cyan mb-6 relative z-10"></i>
+                        <p class="font-script text-2xl md:text-4xl mb-6 relative z-10">
+                            "Ho creato un ecosistema dove la passione per il vento unisce le persone, creando legami che vanno oltre lo sport."
+                        </p>
+                        <div class="relative z-10 flex items-center justify-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-gray-700 overflow-hidden border-2 border-cyan">
+                                <img src="https://ui-avatars.com/api/?name=Tony+Sunrise&background=00F3FF&color=000" alt="Tony">
+                            </div>
+                            <div class="text-left">
+                                <h5 class="font-bold uppercase tracking-wider text-sm">Tony Sunrise</h5>
+                                <p class="text-[10px] text-cyan uppercase tracking-widest">Founder & Captain</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="timeline" class="py-32 relative overflow-hidden bg-deep">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        
+        <div class="max-w-6xl mx-auto px-6 relative z-10 text-center">
+            <span class="text-cyan font-bold tracking-[0.5em] text-xs uppercase mb-4 block reveal">The Journey</span>
+            <h2 class="font-display text-6xl md:text-8xl font-bold mb-16 reveal">
+                10 ANNI <span class="italic font-serif text-4xl align-middle text-gray-500">di</span> LEGGENDA
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <div class="glass-panel p-8 rounded-3xl tilt-card hover:-translate-y-2 transition-transform duration-500 group" data-tilt>
+                    <div class="text-6xl font-display font-bold text-outline opacity-30 mb-4 group-hover:text-cyan group-hover:opacity-100 transition-all">2014</div>
+                    <h3 class="text-2xl font-bold text-white mb-4">L'Origine</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Un'idea visionaria di Tony Sunrise pianta il seme. Nascono i primi gruppi, pionieri di un nuovo modo di vivere il kite in Italia.
+                    </p>
+                    <div class="w-full h-1 bg-white/10 mt-6 rounded-full overflow-hidden">
+                        <div class="h-full bg-cyan w-1/3"></div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-3xl tilt-card hover:-translate-y-2 transition-transform duration-500 group bg-white/5" data-tilt style="border-color: rgba(0,243,255,0.3);">
+                    <div class="text-6xl font-display font-bold text-outline opacity-30 mb-4 group-hover:text-sun group-hover:opacity-100 transition-all">BOOM</div>
+                    <h3 class="text-2xl font-bold text-white mb-4">L'Espansione</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Dallo Snowkite all'Hydrofoil. La community diventa il punto di riferimento per spot, viaggi e mercatino usato.
+                    </p>
+                    <div class="w-full h-1 bg-white/10 mt-6 rounded-full overflow-hidden">
+                        <div class="h-full bg-sun w-2/3"></div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-3xl tilt-card hover:-translate-y-2 transition-transform duration-500 group" data-tilt>
+                    <div class="text-6xl font-display font-bold text-outline opacity-30 mb-4 group-hover:text-cyan group-hover:opacity-100 transition-all">2024</div>
+                    <h3 class="text-2xl font-bold text-white mb-4">La Tribù Globale</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Oggi siamo un ecosistema. 33 canali, migliaia di membri, eventi reali. Il futuro è scritto nel vento.
+                    </p>
+                    <div class="w-full h-1 bg-white/10 mt-6 rounded-full overflow-hidden">
+                        <div class="h-full bg-cyan w-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="community" class="py-24 px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24">
+                <div class="reveal">
+                    <h2 class="font-display text-5xl font-bold uppercase mb-6">I Nostri <span class="text-cyan">Numeri</span></h2>
+                    <p class="text-gray-400 mb-10 max-w-md">Una crescita organica, basata sulla fiducia e sulla passione comune.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="glass-panel p-6 rounded-xl flex items-center justify-between group cursor-default">
+                            <div>
+                                <h4 class="text-3xl font-bold text-white counter" data-target="1100">0</h4>
+                                <p class="text-[10px] uppercase tracking-widest text-cyan">Membri WhatsApp Verified</p>
+                            </div>
+                            <i class="fa-brands fa-whatsapp text-4xl text-green-500 opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all"></i>
+                        </div>
+                        
+                        <div class="glass-panel p-6 rounded-xl flex items-center justify-between group cursor-default">
+                            <div>
+                                <h4 class="text-3xl font-bold text-white counter" data-target="10000">0</h4>
+                                <p class="text-[10px] uppercase tracking-widest text-blue-400">Community Facebook</p>
+                            </div>
+                            <i class="fa-brands fa-facebook text-4xl text-blue-500 opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all"></i>
+                        </div>
+
+                        <div class="glass-panel p-6 rounded-xl flex items-center justify-between group cursor-default">
+                            <div>
+                                <h4 class="text-3xl font-bold text-white counter" data-target="33">0</h4>
+                                <p class="text-[10px] uppercase tracking-widest text-sun">Gruppi Tematici Attivi</p>
+                            </div>
+                            <i class="fa-solid fa-comments text-4xl text-sun opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 reveal">
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end h-64 relative group overflow-hidden border-none">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay group-hover:scale-110 transition-transform duration-700"></div>
+                        <h3 class="relative z-10 font-display text-2xl font-bold uppercase italic">Kite</h3>
+                    </div>
+                    
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end h-64 relative group overflow-hidden border-none mt-12">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-500 opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1623943632906-8c4309c06180?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay group-hover:scale-110 transition-transform duration-700"></div>
+                        <h3 class="relative z-10 font-display text-2xl font-bold uppercase italic">Wing Foil</h3>
+                    </div>
+                    
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end h-64 relative group overflow-hidden border-none">
+                        <div class="absolute inset-0 bg-gradient-to-br from-gray-200 to-white opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551524559-8af4e6624178?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay group-hover:scale-110 transition-transform duration-700"></div>
+                        <h3 class="relative z-10 font-display text-2xl font-bold uppercase italic text-black">Snow Kite</h3>
+                    </div>
+                    
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end h-64 relative group overflow-hidden border-none mt-12">
+                         <div class="absolute inset-0 bg-gradient-to-br from-green-400 to-cyan opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540999554378-bd88b8351052?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay group-hover:scale-110 transition-transform duration-700"></div>
+                        <h3 class="relative z-10 font-display text-2xl font-bold uppercase italic">Hydrofoil</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ecosystem" class="py-24 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <h2 class="font-display text-center text-5xl md:text-7xl font-bold uppercase mb-20 reveal">
+                Ecosistema <span class="text-gradient">40Knots</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="glass-panel p-8 rounded-2xl text-center group hover:bg-white/5 transition-colors cursor-pointer">
+                    <div class="w-16 h-16 mx-auto bg-cyan/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-cyan/30 shadow-[0_0_20px_rgba(0,243,255,0.2)]">
+                        <i class="fa-solid fa-map-location-dot text-2xl text-cyan"></i>
+                    </div>
+                    <h3 class="font-bold text-lg uppercase mb-2">Spot Chat</h3>
+                    <p class="text-xs text-gray-400">Segnalazioni live dalle spiagge. Vento, onde e condizioni in tempo reale.</p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl text-center group hover:bg-white/5 transition-colors cursor-pointer">
+                    <div class="w-16 h-16 mx-auto bg-sun/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-sun/30 shadow-[0_0_20px_rgba(255,215,0,0.2)]">
+                        <i class="fa-solid fa-handshake text-2xl text-sun"></i>
+                    </div>
+                    <h3 class="font-bold text-lg uppercase mb-2">Marketplace</h3>
+                    <p class="text-xs text-gray-400">Il canale Vendo/Cerco più affidabile. Attrezzatura che passa di mano in mano.</p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl text-center group hover:bg-white/5 transition-colors cursor-pointer">
+                    <div class="w-16 h-16 mx-auto bg-coral/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-coral/30 shadow-[0_0_20px_rgba(255,64,129,0.2)]">
+                        <i class="fa-solid fa-plane-departure text-2xl text-coral"></i>
+                    </div>
+                    <h3 class="font-bold text-lg uppercase mb-2">Travel</h3>
+                    <p class="text-xs text-gray-400">Viaggi organizzati nei paradisi del vento. Brasile, Canarie, Egitto.</p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl text-center group hover:bg-white/5 transition-colors cursor-pointer">
+                    <div class="w-16 h-16 mx-auto bg-green-500/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+                        <i class="fa-solid fa-graduation-cap text-2xl text-green-500"></i>
+                    </div>
+                    <h3 class="font-bold text-lg uppercase mb-2">Academy</h3>
+                    <p class="text-xs text-gray-400">Consigli tecnici, tutorial e supporto per principianti ed esperti.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="py-4 bg-cyan text-deep font-bold uppercase tracking-widest text-xs overflow-hidden relative z-20 border-y border-white/20">
+        <div class="whitespace-nowrap animate-wave inline-block">
+            LIVE WIND • TARIFA 35KTS • LAKE GARDA 18KTS • SARDINIA 25KTS • SICILY 22KTS • BRAZIL 30KTS • LIVE WIND • TARIFA 35KTS • LAKE GARDA 18KTS • SARDINIA 25KTS •
+        </div>
+    </div>
+
+    <footer class="bg-black py-20 px-6 border-t border-white/10 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="text-center md:text-left">
+                <h3 class="font-display font-bold text-3xl mb-2">40KNOTS<span class="text-cyan">FORLIFE</span></h3>
+                <p class="text-xs text-gray-500 tracking-widest uppercase">Since 2014 • Made for Riders</p>
+            </div>
+
+            <div class="flex gap-6">
+                <a href="#" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-cyan hover:text-deep transition-all"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="#" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-blue-600 hover:text-white transition-all"><i class="fa-brands fa-facebook-f text-xl"></i></a>
+                <a href="#" class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-green-500 hover:text-white transition-all"><i class="fa-brands fa-whatsapp text-xl"></i></a>
+            </div>
+            
+            <div class="text-center md:text-right">
+                <a href="#" class="px-8 py-3 border border-white/20 rounded-full text-xs font-bold uppercase hover:bg-white hover:text-black transition-all">Contact Captain</a>
+            </div>
+        </div>
+        <div class="text-center mt-16 opacity-30 text-[10px] uppercase tracking-[0.2em]">
+            &copy; 2024 40KnotsForLife. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. PARTICLE SYSTEM (BUBBLES) ---
+        function initOceanParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = window.innerWidth < 768 ? 15 : 30;
+
+            for(let i=0; i<particleCount; i++) { 
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                
+                // Random size & position
+                const size = Math.random() * 20 + 5;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + 'vw';
+                
+                // Random animation speed
+                const duration = Math.random() * 15 + 10;
+                p.style.animationDuration = duration + 's';
+                p.style.animationDelay = Math.random() * 10 + 's';
+                
+                container.appendChild(p);
+            }
+        }
+        initOceanParticles();
+
+        // --- 2. 3D TILT EFFECT ---
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                if(window.innerWidth > 768) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -8; // Max rotation deg
+                    const rotateY = ((x - centerX) / centerX) * 8;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+        // --- 3. SCROLL ANIMATIONS (Intersection Observer) ---
+        const observerOptions = { threshold: 0.15, rootMargin: "0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Trigger counters if inside a revealed section
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const duration = 2000; 
+                        const increment = target / (duration / 16); 
+                        
+                        let current = 0;
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                counter.innerText = Math.ceil(current).toLocaleString();
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.innerText = target.toLocaleString() + (target > 9999 ? '+' : '');
+                            }
+                        };
+                        // Only run once
+                        if(counter.innerText === '0') updateCounter();
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- 4. NAVBAR SCROLL EFFECT ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            const progress = document.getElementById('scroll-progress');
+            
+            // Progress Bar
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            progress.style.width = scrollPercent + '%';
+
+            // Navbar Blur Increase
+            if(window.scrollY > 50) {
+                nav.classList.add('py-2');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.add('py-4');
+                nav.classList.remove('py-2');
+            }
+        });
+
+        // --- 5. MOBILE MENU ---
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('mobile-menu-active');
+            
+            if(menu.classList.contains('mobile-menu-active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>40Knots For Life | The Global Tribe</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'carib-blue': '#00E0FF',  /* Turchese Elettrico */
+                        'coral-hot': '#FF5E5E',   /* Corallo Vivo */
+                        'sun-gold': '#FFC400',    /* Sole Pieno */
+                        'deep-sea': '#0A192F',    /* Blu Notte (Testi/Contrasto) */
+                        'sand-warm': '#FFF8F0',   /* Sabbia Calda (Sfondo) */
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        wild: ['Permanent Marker', 'cursive'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CORE STYLES */
+        body {
+            background-color: #FFF8F0;
+            color: #0A192F;
+            overflow-x: hidden;
+        }
+
+        /* ADVANCED GLASSMORPHISM */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+
+        .glass-high-contrast {
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px -10px rgba(0, 224, 255, 0.3);
+            border-color: #00E0FF;
+        }
+
+        /* TYPOGRAPHY FX */
+        .text-gradient {
+            background: linear-gradient(to right, #00E0FF, #FF5E5E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.8);
+            color: transparent;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: linear-gradient(90deg, #FF5E5E 0%, #FF8A5E 100%);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(255, 94, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 94, 94, 0.5);
+        }
+
+        /* SCROLL REVEAL UTILS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FFF8F0; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(#00E0FF, #FF5E5E); border-radius: 4px; }
+    </style>
+</head>
+<body class="selection:bg-carib-blue selection:text-white">
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 px-4">
+        <div class="max-w-7xl mx-auto glass rounded-full px-6 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <div class="font-display font-black text-2xl text-deep-sea tracking-tight">
+                    40<span class="text-coral-hot">Knots</span>
+                </div>
+            </a>
+
+            <div class="hidden md:flex gap-8 items-center font-bold text-sm text-deep-sea uppercase tracking-wide">
+                <a href="#expeditions" class="hover:text-coral-hot transition">Trips</a>
+                <a href="#membership" class="hover:text-coral-hot transition">Club</a>
+                <a href="#shop" class="hover:text-coral-hot transition">Gear</a>
+                <a href="#story" class="hover:text-coral-hot transition">Story</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#membership" class="hidden md:block btn-primary px-6 py-2 rounded-full text-xs">
+                    Join Tribe
+                </a>
+                <button class="md:hidden text-2xl text-deep-sea"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop" 
+                 class="w-full h-full object-cover" 
+                 id="hero-bg"
+                 alt="Tropical Paradise">
+            <div class="absolute inset-0 bg-gradient-to-b from-deep-sea/20 via-transparent to-sand-warm"></div>
+            <div class="absolute inset-0 bg-sun-gold/10 mix-blend-overlay"></div>
+        </div>
+
+        <div class="absolute top-1/4 left-10 w-32 h-32 bg-carib-blue rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob"></div>
+        <div class="absolute bottom-1/4 right-10 w-32 h-32 bg-coral-hot rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000"></div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20">
+            <div class="inline-block glass-high-contrast px-4 py-1 rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-6 animate-float">
+                <i class="fa-solid fa-location-dot text-carib-blue mr-2"></i>Currently chasing wind in Brazil
+            </div>
+            
+            <h1 class="font-display font-black text-6xl md:text-9xl text-white leading-[0.9] drop-shadow-xl mb-6">
+                ESCAPE <br>
+                <span class="font-wild text-sun-gold text-5xl md:text-7xl block -rotate-3 mt-4">The Ordinary</span>
+            </h1>
+            
+            <p class="text-white/90 font-medium text-lg md:text-xl max-w-2xl mx-auto mb-10 drop-shadow-md">
+                We are the saltwater generation. From tropical lagoons to alpine peaks. 
+                Don't just watch the horizon. <span class="text-sun-gold font-bold">Chase it.</span>
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <a href="#expeditions" class="btn-primary px-10 py-4 rounded-full text-lg shadow-2xl shadow-coral-hot/50">
+                    Book Your Escape
+                </a>
+                <a href="#membership" class="glass text-white px-10 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-white hover:text-deep-sea transition">
+                    Unlock Secret Spots
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="bg-carib-blue py-3 overflow-hidden -rotate-1 shadow-lg relative z-20 border-y-4 border-white">
+        <div class="whitespace-nowrap flex animate-marquee">
+            <span class="text-deep-sea font-black text-xl uppercase mx-4">🌊 Salt Water Therapy</span>
+            <span class="text-white font-black text-xl uppercase mx-4">•</span>
+            <span class="text-deep-sea font-black text-xl uppercase mx-4">🏔️ Fresh Powder</span>
+            <span class="text-white font-black text-xl uppercase mx-4">•</span>
+            <span class="text-deep-sea font-black text-xl uppercase mx-4">🏄‍♂️ Freedom</span>
+            <span class="text-white font-black text-xl uppercase mx-4">•</span>
+            <span class="text-deep-sea font-black text-xl uppercase mx-4">🦅 Wing Foil Revolution</span>
+            <span class="text-white font-black text-xl uppercase mx-4">•</span>
+            <span class="text-deep-sea font-black text-xl uppercase mx-4">🌴 No Bad Days</span>
+            <span class="text-white font-black text-xl uppercase mx-4">•</span>
+             <span class="text-deep-sea font-black text-xl uppercase mx-4">🌊 Salt Water Therapy</span>
+            <span class="text-white font-black text-xl uppercase mx-4">•</span>
+            <span class="text-deep-sea font-black text-xl uppercase mx-4">🏔️ Fresh Powder</span>
+        </div>
+    </div>
+
+    <section id="story" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="relative reveal">
+                <div class="absolute top-0 left-10 w-64 h-80 bg-white p-3 shadow-xl transform -rotate-6 z-10">
+                    <img src="https://images.unsplash.com/photo-1596395812920-5a363a4bb49d?q=80&w=800&auto=format&fit=crop" class="w-full h-64 object-cover filter contrast-125">
+                    <p class="font-wild text-center mt-2 text-deep-sea">The first van, 2014</p>
+                </div>
+                <div class="relative w-72 h-96 bg-white p-3 shadow-2xl transform rotate-3 left-20 top-10 z-20">
+                    <img src="https://images.unsplash.com/photo-1622625291240-91ae4e35795c?q=80&w=800&auto=format&fit=crop" class="w-full h-80 object-cover filter saturate-150">
+                    <p class="font-wild text-center mt-2 text-coral-hot">The Tribe Today</p>
+                </div>
+            </div>
+
+            <div class="reveal delay-200">
+                <span class="text-coral-hot font-bold uppercase tracking-widest text-sm">Our Heritage</span>
+                <h2 class="font-display font-black text-5xl md:text-6xl text-deep-sea mt-2 mb-6 leading-tight">
+                    10 Years of <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-carib-blue to-coral-hot">Unfiltered Life.</span>
+                </h2>
+                <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                    It wasn't a business plan. It was a getaway car. 
+                    In 2014, <strong class="text-deep-sea">Tony Sunrise</strong> sold everything, bought a rusty van, and started chasing the perfect knot.
+                </p>
+                <p class="text-gray-600 text-lg leading-relaxed mb-8">
+                    Today, 40Knots isn't just a logo. It's a <strong class="text-coral-hot">global passport</strong> for 1,200+ riders who refuse to live life in black and white. 
+                    We don't sell trips; we engineer memories that feel like hallucinations.
+                </p>
+
+                <div class="flex gap-10 border-t border-gray-200 pt-8">
+                    <div>
+                        <span class="block text-4xl font-black text-deep-sea counter" data-target="1200">0</span>
+                        <span class="text-xs uppercase font-bold text-gray-400">Tribe Members</span>
+                    </div>
+                    <div>
+                        <span class="block text-4xl font-black text-carib-blue counter" data-target="52">0</span>
+                        <span class="text-xs uppercase font-bold text-gray-400">Expeditions</span>
+                    </div>
+                    <div>
+                        <span class="block text-4xl font-black text-sun-gold counter" data-target="10">0</span>
+                        <span class="text-xs uppercase font-bold text-gray-400">Years Wild</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="expeditions" class="py-24 bg-deep-sea relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-carib-blue rounded-full filter blur-[150px] opacity-20"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="flex justify-between items-end mb-12 reveal">
+                <div>
+                    <span class="text-sun-gold font-bold uppercase tracking-widest text-sm">Next Departures</span>
+                    <h2 class="font-display font-black text-5xl text-white mt-2">Pack Your <span class="font-wild text-carib-blue">Bags</span></h2>
+                </div>
+                <a href="#" class="text-white hover:text-carib-blue transition border-b border-white/30 pb-1">View Full Calendar &rarr;</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="group relative h-[500px] rounded-3xl overflow-hidden cursor-pointer reveal delay-100">
+                    <img src="https://images.unsplash.com/photo-1589553416260-f586c8f1514f?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    
+                    <div class="absolute top-4 right-4 bg-coral-hot text-white font-bold px-3 py-1 rounded-full text-xs animate-pulse">
+                        LAST 2 SPOTS
+                    </div>
+
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <p class="text-carib-blue font-bold text-sm mb-2">NOV 2026 • BRAZIL</p>
+                        <h3 class="text-3xl font-display font-bold text-white mb-4">The Endless Downwind</h3>
+                        <div class="flex justify-between items-center border-t border-white/20 pt-4">
+                            <span class="text-white font-bold text-xl">€ 2.400</span>
+                            <button class="bg-white text-deep-sea px-6 py-2 rounded-full font-bold text-sm hover:bg-carib-blue transition">BOOK NOW</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group relative h-[500px] rounded-3xl overflow-hidden cursor-pointer reveal delay-200">
+                    <img src="https://images.unsplash.com/photo-1605540459522-83b544330686?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <p class="text-carib-blue font-bold text-sm mb-2">FEB 2027 • ALPS</p>
+                        <h3 class="text-3xl font-display font-bold text-white mb-4">Snowkite Safari</h3>
+                        <div class="flex justify-between items-center border-t border-white/20 pt-4">
+                            <span class="text-white font-bold text-xl">€ 1.800</span>
+                            <button class="bg-white text-deep-sea px-6 py-2 rounded-full font-bold text-sm hover:bg-carib-blue transition">BOOK NOW</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group relative h-[500px] rounded-3xl overflow-hidden cursor-pointer reveal delay-300">
+                    <img src="https://images.unsplash.com/photo-1621253073740-4f323758b975?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <p class="text-carib-blue font-bold text-sm mb-2">MAY 2027 • GREECE</p>
+                        <h3 class="text-3xl font-display font-bold text-white mb-4">Wing Foil Academy</h3>
+                        <div class="flex justify-between items-center border-t border-white/20 pt-4">
+                            <span class="text-white font-bold text-xl">€ 1.250</span>
+                            <button class="bg-white text-deep-sea px-6 py-2 rounded-full font-bold text-sm hover:bg-carib-blue transition">BOOK NOW</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="membership" class="py-24 relative bg-sand-warm">
+        <div class="max-w-4xl mx-auto px-6 text-center mb-16 reveal">
+            <h2 class="font-display font-black text-5xl text-deep-sea mb-4">Join the <span class="text-coral-hot font-wild">Inner Circle</span></h2>
+            <p class="text-gray-600 text-xl">Stop being a tourist. Start being a local, everywhere.</p>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center reveal">
+            <div class="glass-card p-10 rounded-3xl relative">
+                <h3 class="font-bold text-2xl text-deep-sea mb-2">Rookie</h3>
+                <p class="text-4xl font-black text-gray-300 mb-6">FREE</p>
+                <ul class="space-y-4 mb-8 text-gray-600">
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-check text-carib-blue"></i> Access to Public Chat</li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-check text-carib-blue"></i> Monthly Newsletter</li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-check text-carib-blue"></i> Event Updates</li>
+                </ul>
+                <button class="w-full py-4 border-2 border-deep-sea text-deep-sea font-bold rounded-xl hover:bg-deep-sea hover:text-white transition">SIGN UP</button>
+            </div>
+
+            <div class="bg-deep-sea text-white p-12 rounded-3xl shadow-2xl relative transform md:scale-105 border-4 border-carib-blue">
+                <div class="absolute top-0 right-0 bg-carib-blue text-deep-sea font-bold text-xs px-4 py-2 rounded-bl-xl uppercase tracking-wider">Most Popular</div>
+                
+                <h3 class="font-bold text-2xl mb-2 text-carib-blue">Salt Life Member</h3>
+                <div class="flex items-baseline gap-2 mb-8">
+                    <p class="text-5xl font-black">€99</p>
+                    <span class="text-white/50">/ year</span>
+                </div>
+                
+                <ul class="space-y-4 mb-10 text-white/90">
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-star text-sun-gold"></i> <strong>Secret Spots Map</strong> (Global)</li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-star text-sun-gold"></i> 20% OFF all 40Knots Gear</li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-star text-sun-gold"></i> Priority Booking on Trips</li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-star text-sun-gold"></i> Private WhatsApp Group</li>
+                </ul>
+                <button class="w-full py-4 bg-gradient-to-r from-carib-blue to-blue-500 text-white font-bold rounded-xl shadow-[0_0_20px_rgba(0,224,255,0.4)] hover:shadow-[0_0_30px_rgba(0,224,255,0.6)] transition transform hover:-translate-y-1">BECOME A MEMBER</button>
+                <p class="text-center text-xs text-white/40 mt-4">Cancel anytime. 100% Stoke Guarantee.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="shop" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-display font-black text-4xl text-deep-sea mb-12 reveal">Essential <span class="text-coral-hot">Gear</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 reveal delay-200">
+                <div class="group">
+                    <div class="bg-gray-100 rounded-2xl h-64 mb-4 relative overflow-hidden flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?q=80&w=600&auto=format&fit=crop" class="h-40 object-contain mix-blend-multiply group-hover:scale-110 transition duration-500">
+                        <div class="absolute bottom-4 right-4 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-carib-blue hover:text-white transition cursor-pointer">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-deep-sea">Tony's Signature Hoodie</h3>
+                    <p class="text-gray-500 text-sm">Organic Cotton</p>
+                    <p class="font-bold text-coral-hot mt-1">€ 65.00</p>
+                </div>
+
+                <div class="group">
+                    <div class="bg-gray-100 rounded-2xl h-64 mb-4 relative overflow-hidden flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1594784400262-432d84784747?q=80&w=600&auto=format&fit=crop" class="h-full w-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-2 left-2 bg-sun-gold text-deep-sea text-[10px] font-bold px-2 py-1 rounded">DIGITAL</div>
+                        <div class="absolute bottom-4 right-4 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-carib-blue hover:text-white transition cursor-pointer">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-deep-sea">Complete Foil Guide</h3>
+                    <p class="text-gray-500 text-sm">Video Course + PDF</p>
+                    <p class="font-bold text-coral-hot mt-1">€ 29.90</p>
+                </div>
+
+                <div class="group">
+                    <div class="bg-gray-100 rounded-2xl h-64 mb-4 relative overflow-hidden flex items-center justify-center">
+                        <img src="https://plus.unsplash.com/premium_photo-1663011319748-0382d622f602?q=80&w=600&auto=format&fit=crop" class="h-40 object-contain mix-blend-multiply group-hover:scale-110 transition duration-500">
+                         <div class="absolute bottom-4 right-4 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-carib-blue hover:text-white transition cursor-pointer">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-deep-sea">40Knots Poncho</h3>
+                    <p class="text-gray-500 text-sm">Quick Dry</p>
+                    <p class="font-bold text-coral-hot mt-1">€ 45.00</p>
+                </div>
+                 <div class="group">
+                    <div class="bg-deep-sea rounded-2xl h-64 mb-4 relative overflow-hidden flex flex-col items-center justify-center text-center p-6 cursor-pointer hover:bg-coral-hot transition">
+                        <i class="fa-solid fa-ticket text-4xl text-white mb-4"></i>
+                        <h3 class="font-bold text-white text-xl">Gift Card</h3>
+                        <p class="text-white/70 text-sm mt-2">Give the gift of wind.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-sand-warm">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <i class="fa-brands fa-instagram text-4xl text-coral-hot mb-4"></i>
+                <h2 class="font-display font-black text-4xl">#40KnotsTribe</h2>
+                <p class="text-gray-600 mt-2">Tag us to get featured. Real people, real stoke.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+                <img src="https://images.unsplash.com/photo-1601228562308-59424c3114f6?q=80&w=600&auto=format&fit=crop" class="rounded-2xl hover:scale-105 transition duration-500 shadow-lg cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1544551763-46a8723ba3f9?q=80&w=600&auto=format&fit=crop" class="rounded-2xl hover:scale-105 transition duration-500 shadow-lg cursor-pointer mt-8">
+                <img src="https://images.unsplash.com/photo-1564518336335-081033a3889f?q=80&w=600&auto=format&fit=crop" class="rounded-2xl hover:scale-105 transition duration-500 shadow-lg cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1596395812920-5a363a4bb49d?q=80&w=600&auto=format&fit=crop" class="rounded-2xl hover:scale-105 transition duration-500 shadow-lg cursor-pointer mt-8">
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-deep-sea pt-20 pb-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between gap-12">
+            <div class="md:w-1/3">
+                <h4 class="font-display font-black text-3xl text-white mb-4">40Knots<span class="text-carib-blue">.</span></h4>
+                <p class="text-white/50 mb-6">Born in a van, raised by the ocean. Join the global movement of wind chasers.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-carib-blue transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-blue-600 transition"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-green-500 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="md:w-1/3">
+                <h5 class="font-bold text-white mb-6 uppercase tracking-wider">Stay Wild</h5>
+                <p class="text-white/50 text-sm mb-4">Get the best wind forecasts and secret trip offers before anyone else.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Your email..." class="bg-white/5 border border-white/10 text-white px-4 py-3 rounded-l-lg w-full focus:outline-none focus:border-carib-blue">
+                    <button class="bg-carib-blue text-deep-sea font-bold px-6 py-3 rounded-r-lg hover:bg-white transition">JOIN</button>
+                </div>
+            </div>
+
+            <div class="md:w-1/6">
+                <h5 class="font-bold text-white mb-6 uppercase tracking-wider">Explore</h5>
+                <ul class="space-y-3 text-white/50">
+                    <li><a href="#" class="hover:text-carib-blue transition">Our Story</a></li>
+                    <li><a href="#" class="hover:text-carib-blue transition">Destinations</a></li>
+                    <li><a href="#" class="hover:text-carib-blue transition">Shop Gear</a></li>
+                    <li><a href="#" class="hover:text-carib-blue transition">Membership</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-white/5 text-center text-white/20 text-xs">
+            © 2026 40KNOTS FOR LIFE. DESIGNED FOR FREEDOM.
+        </div>
+    </footer>
+
+    <script>
+        // 1. SCROLL REVEAL (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 2. PARALLAX EFFECT HERO
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            const heroBg = document.getElementById('hero-bg');
+            if(heroBg) {
+                heroBg.style.transform = `translateY(${scroll * 0.5}px)`;
+            }
+
+            // Navbar Glass Toggle
+            const nav = document.getElementById('navbar');
+            if (scroll > 50) {
+                nav.firstElementChild.classList.add('glass-high-contrast', 'shadow-2xl');
+                nav.firstElementChild.classList.remove('glass');
+                // Change text color in nav
+                nav.querySelectorAll('a').forEach(a => {
+                    if(!a.classList.contains('btn-primary')) a.classList.add('text-white');
+                });
+            } else {
+                nav.firstElementChild.classList.remove('glass-high-contrast', 'shadow-2xl');
+                nav.firstElementChild.classList.add('glass');
+                 nav.querySelectorAll('a').forEach(a => {
+                    if(!a.classList.contains('btn-primary')) a.classList.remove('text-white');
+                });
+            }
+        });
+
+        // 3. NUMBER COUNTER ANIMATION
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    const updateCount = () => {
+                        const target = +entry.target.getAttribute('data-target');
+                        const count = +entry.target.innerText;
+                        const inc = target / speed;
+
+                        if (count < target) {
+                            entry.target.innerText = Math.ceil(count + inc);
+                            setTimeout(updateCount, 20);
+                        } else {
+                            entry.target.innerText = target + (target > 1000 ? '+' : '');
+                        }
+                    };
+                    updateCount();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+    </script>
+</body>
+</html>
